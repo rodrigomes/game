@@ -13,8 +13,8 @@ class Post < ActiveRecord::Base
     @old_number = self.number
 
     if @old_number.empty? then
-      if Post.count = 1 then
-        @number = "010101010101"
+      if Post.count < 2 then
+        @number = "010203040506"
       else
         @number = Post.all[Post.count-2].number
       end
@@ -25,8 +25,8 @@ class Post < ActiveRecord::Base
       #based on the last element in our database before the users input =)
       if valid_number(@old_number) then
       else
-        if Post.count = 1 then
-          @number = "010101010101"
+        if Post.count < 2 then
+          @number = "010203040506"
         else
           @number = Post.all[Post.count-2].number
         end

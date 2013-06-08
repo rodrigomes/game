@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20130608114501) do
     t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "number"
+    t.string   "number"
   end
 
 end
