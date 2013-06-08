@@ -10,11 +10,14 @@ class Post < ActiveRecord::Base
   private
 
   def generate_new_number
-    debugger
     @old_number = self.number
 
     if @old_number.empty? then
-      @number = Post.all[Post.count-2].number
+      if Post.count = 1 then
+        @number = "010101010101"
+      else
+        @number = Post.all[Post.count-2].number
+      end
       @number2 = next_number(@number)
       self.update_attribute(:number, @number2)
     else
@@ -22,7 +25,11 @@ class Post < ActiveRecord::Base
       #based on the last element in our database before the users input =)
       if valid_number(@old_number) then
       else
-        @number = Post.all[Post.count-2].number
+        if Post.count = 1 then
+          @number = "010101010101"
+        else
+          @number = Post.all[Post.count-2].number
+        end
         @number2 = next_number(@number)
         self.update_attribute(:number, @number2)
       end

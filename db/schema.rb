@@ -13,7 +13,13 @@
 
 ActiveRecord::Schema.define(:version => 20130608114501) do
 
-# Could not dump table "posts" because of following StandardError
-#   Unknown type 'fixnum' for column 'number'
+  create_table "posts", :force => true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "number"
+  end
 
 end
