@@ -18,6 +18,8 @@ class Post < ActiveRecord::Base
       @number2 = next_number(@number)
       self.update_attribute(:number, @number2)
     else
+      # here if the number provided by the user is not unique we create a new one
+      #based on the last element in our database before the users input =)
       if valid_number(@old_number) then
       else
         @number = Post.all[Post.count-2].number
@@ -77,14 +79,37 @@ class Post < ActiveRecord::Base
     numbers2 = calculate_number(number2)
 
     @valid = true
-    #check uniqueness in db later
 
     #check different numbers n1 n2 n3 n4 n5 n6
     unless numbers2.uniq.length == numbers2.length
       @valid = false
     end
 
+    #check uniqueness in db after number uniqueness
+    if @valid then # avoid all this calculus if the number is already invalid
+      @posts = Post.all
+      @posts.pop # removes last post so we don't count it as equal to our own
+      @posts.each do |post|
+        ns = calculate_number(post.number)
+        unless unique_numbers(ns, numbers2)
+          @valid = false
+        end
+      end
+    end
+
     @valid
+  end
+
+  def unique_numbers(numbers1, numbers2)
+    v = true
+    numbers3 = numbers1 + numbers2
+    if numbers3.uniq.length == numbers1.length then
+      v = false
+    end
+    if numbers3.uniq.length == numbers2.length then # better twice right than once wrong
+      v = false
+    end
+    v
   end
 
   def calculate_number(number)
